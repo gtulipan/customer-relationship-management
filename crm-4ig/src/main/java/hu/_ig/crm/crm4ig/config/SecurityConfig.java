@@ -91,6 +91,7 @@ public class SecurityConfig {
                         .csrfTokenRepository(csrfConfig.csrfTokenRepository())
                         .csrfTokenRequestHandler(csrfConfig.csrfTokenRequestHandler())
                 )
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
                 .httpBasic(withDefaults());
         return http.build();
     }
@@ -115,7 +116,7 @@ public class SecurityConfig {
     private JWKSet buildJWKSet() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
         KeyStore keyStore = KeyStore.getInstance("JKS");
         try (InputStream fis = this.getClass().getClassLoader().getResourceAsStream(keyFile);) {
-            keyStore.load(fis, alias.toCharArray());
+            keyStore.load(fis, password.toCharArray());
             return JWKSet.load(keyStore, name -> password.toCharArray());
         }
     }
@@ -132,7 +133,7 @@ public class SecurityConfig {
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://localhost:8080/login/oauth2/code/custom").scope("read").scope("write")
+                .redirectUri("http://localhost:4200").scope("read").scope("write")
                 .tokenSettings(tokenSettings()).build();
         return new InMemoryRegisteredClientRepository(registredClient);
     }

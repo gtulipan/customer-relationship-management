@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/changeset-001-create-users-table.yaml
   - include:
       file: db/changelog/changeset-002-create-partner-and-address-tables.yaml
+  - include:
+      file: db/changelog/changeset-003-insert-user-and-admin-to-test.yaml

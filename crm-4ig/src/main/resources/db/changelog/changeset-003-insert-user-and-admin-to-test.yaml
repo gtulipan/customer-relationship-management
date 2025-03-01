@@ -1,0 +1,82 @@
+databaseChangeLog:
+  - changeSet:
+      id: 7
+      author: Gustav TULIP
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  value: d3b07384-d9a0-4c2d-b6f8-8f6d1cddfb67
+              - column:
+                  name: name
+                  value: "Est Hajnalka"
+              - column:
+                  name: username
+                  value: "administrator"
+              - column:
+                  name: email
+                  value: "admin@example.com"
+              - column:
+                  name: password
+                  value: "$2a$12$cAEy0twLMElt8gSC..3Wue/42.b3a9Isqw7QLht84cZUjRD/kaiDu"
+              - column:
+                  name: version
+                  valueNumeric: 1
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  value: d3b07384-d9a0-4c2d-b6f8-8f6d1cddfb68
+              - column:
+                  name: name
+                  value: "Teszt Elek"
+              - column:
+                  name: username
+                  value: "testuser"
+              - column:
+                  name: email
+                  value: "user@example.com"
+              - column:
+                  name: password
+                  value: "$2a$12$ArwvDHRkuUGcWLuU6..Ire5g6tsuCTVC9ttzkurMwpPzW/HYnpX.G"
+              - column:
+                  name: version
+                  valueNumeric: 1
+
+  - changeSet:
+      id: 8
+      author: Gustav TULIP
+      changes:
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  value: d3b07384-d9a0-4c2d-b6f8-8f6d1cddfb69
+              - column:
+                  name: user_id
+                  value: d3b07384-d9a0-4c2d-b6f8-8f6d1cddfb67
+              - column:
+                  name: role_name
+                  value: "admin"
+              - column:
+                  name: version
+                  valueNumeric: 1
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  value: d3b07384-d9a0-4c2d-b6f8-8f6d1cddfb70
+              - column:
+                  name: user_id
+                  value: d3b07384-d9a0-4c2d-b6f8-8f6d1cddfb68
+              - column:
+                  name: role_name
+                  value: "user"
+              - column:
+                  name: version
+                  valueNumeric: 1
