@@ -1,0 +1,53 @@
+services:
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres-crm-4ig
+    environment:
+      POSTGRES_DB: ${DB_POSTGRESQL_DATABASE_NAME}
+      POSTGRES_USER: ${DB_POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${DB_POSTGRESQL_PASSWORD}
+    ports:
+      - ${DB_POSTGRESQL_PORT_EXTERNAL}:${DB_POSTGRESQL_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - ./create-liquibase-tables.sql:/docker-entrypoint-initdb.d/create-tables.sql
+    restart: unless-stopped
+    networks:
+      - crm-4ig-network
+
+  crm-4ig:
+    env_file:
+      - .env
+    build:
+      context: .
+      args:
+        SERVER_PORT: ${SERVER_PORT}
+        LOG_FOLDER: ${LOG_FOLDER}
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
+      - LOG_FOLDER=${LOG_FOLDER}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - SPRING_DATASOURCE_USERNAME=${DB_POSTGRESQL_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_POSTGRESQL_PASSWORD}
+      - SPRING_LIQUIBASE_CHANGELOG=classpath:db/changelog/changelog-master.yaml
+      - TOKEN_VALIDITY_TIMEOUT=${TOKEN_VALIDITY_TIMEOUT}
+      - ANGULAR_CLIENT_URL=${ANGULAR_CLIENT_URL}
+    depends_on:
+      - postgres
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    container_name: crm-4ig
+    networks:
+      - crm-4ig-network
+
+networks:
+  crm-4ig-network:
+    name: crm-4ig-network
+    driver: bridge
+    attachable: true
+
+volumes:
+  postgres_data:

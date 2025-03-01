@@ -1,0 +1,52 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: crm-4ig
+  datasource:
+    url: jdbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
+    username: ${DB_POSTGRESQL_USER}
+    password: ${DB_POSTGRESQL_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.yaml
+    contexts: test
+    drop-first: true
+  security:
+    keyFile: jwtcrm4ig.jks
+    password: jwt680305
+    alias: crm4igkey
+    providerUrl: http://localhost:8080
+    token-timeout: ${TOKEN_VALIDITY_TIMEOUT:30}
+
+logging:
+  level:
+    root: ${LOGGING_LEVEL_ROOT:DEBUG}
+    org:
+      springdoc: ${LOGGING_LEVEL_ROOT:DEBUG}
+      springframework:
+        web: ${LOGGING_LEVEL_ROOT:DEBUG}
+        boot.autoconfigure: ${LOGGING_LEVEL_ROOT:DEBUG}
+        context.annotation: ${LOGGING_LEVEL_ROOT:DEBUG}
+  file:
+    path: ${LOG_FOLDER:/tmp}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+angular:
+  client:
+    url: ${ANGULAR_CLIENT_URL:http://localhost:4200}
+
+
