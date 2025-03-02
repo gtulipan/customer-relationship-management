@@ -36,5 +36,5 @@ public class UserDto {
     private String password;
 
     private int version;
-    private Set<RoleEntity> roles;
+    private Set<RoleDto> roles;
 }

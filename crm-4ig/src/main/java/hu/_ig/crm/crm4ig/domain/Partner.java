@@ -10,6 +10,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -49,5 +51,20 @@ public class Partner {
     private int version;
 
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Address> addresses;
+    private Set<Address> addresses = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Partner partner = (Partner) o;
+        return Objects.equals(name, partner.name) &&
+                Objects.equals(email, partner.email) &&
+                Objects.equals(addresses, partner.addresses);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, email, addresses);
+    }
 }

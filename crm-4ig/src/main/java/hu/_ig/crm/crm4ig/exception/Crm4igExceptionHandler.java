@@ -24,4 +24,19 @@ public class Crm4igExceptionHandler {
         });
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(PartnerException.class)
+    public ResponseEntity<String> handlePartnerExceptionException(PartnerException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Partner exception: " + e.getMessage());
+    }
+
+    @ExceptionHandler(PdfGenerationException.class)
+    public ResponseEntity<String> handlePdfGenerationException(PdfGenerationException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("PDF generation exception: " + e.getMessage());
+    }
+
+    @ExceptionHandler(CsvImportException.class)
+    public ResponseEntity<String> handleCsvImportException(CsvImportException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CSV import exception: " + e.getMessage());
+    }
 }

@@ -71,6 +71,12 @@ public class SecurityConfig {
     @Value("${spring.security.token-timeout}")
     private String tokenTimeout;
 
+    @Value("${spring.security.client-secret}")
+    private String clientSecret;
+
+    @Value("${angular.client.url}")
+    private String angularClientUrl;
+
     public SecurityConfig(CorsConfig corsConfig, CsrfConfig csrfConfig, PasswordEncoder passwordEncoder, UserDetailsServiceImpl userDetailsService) {
         this.corsConfig = corsConfig;
         this.csrfConfig = csrfConfig;
@@ -129,11 +135,11 @@ public class SecurityConfig {
     @Bean
     RegisteredClientRepository registeredClientRepository() {
         RegisteredClient registredClient = RegisteredClient.withId("crm4ig").clientId("crm4igclientapp")
-                .clientSecret(passwordEncoder.encode("9999"))
+                .clientSecret(passwordEncoder.encode(clientSecret))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://localhost:4200").scope("read").scope("write")
+                .redirectUri(angularClientUrl).scope("read").scope("write")
                 .tokenSettings(tokenSettings()).build();
         return new InMemoryRegisteredClientRepository(registredClient);
     }

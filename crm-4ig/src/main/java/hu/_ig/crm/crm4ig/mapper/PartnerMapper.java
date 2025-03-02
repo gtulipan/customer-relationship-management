@@ -5,7 +5,7 @@ import hu._ig.crm.crm4ig.model.PartnerDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {DateMapper.class})
+@Mapper(uses = {DateMapper.class, AddressMapper.class})
 public interface PartnerMapper {
     PartnerMapper INSTANCE = Mappers.getMapper(PartnerMapper.class);
     PartnerDto toPartnerDto(Partner partner);

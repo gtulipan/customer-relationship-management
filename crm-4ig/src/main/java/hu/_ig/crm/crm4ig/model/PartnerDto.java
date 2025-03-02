@@ -1,6 +1,5 @@
 package hu._ig.crm.crm4ig.model;
 
-import hu._ig.crm.crm4ig.domain.Address;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -33,5 +32,5 @@ public class PartnerDto {
     private OffsetDateTime createdDate;
     private OffsetDateTime lastModifiedDate;
     private int version;
-    private Set<Address> addresses;
+    private Set<AddressDto> addresses;
 }

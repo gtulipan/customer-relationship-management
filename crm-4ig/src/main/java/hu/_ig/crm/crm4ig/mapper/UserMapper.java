@@ -5,7 +5,7 @@ import hu._ig.crm.crm4ig.model.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses = {RoleMapper.class})
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
     UserDto toUserDto(UserEntity userEntity);

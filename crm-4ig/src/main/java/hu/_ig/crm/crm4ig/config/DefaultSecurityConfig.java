@@ -30,8 +30,9 @@ public class DefaultSecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/auth/csrf-token", "/swagger-ui/**", "/app/**",
                                 "/auth/v1/login", "/auth/v1/register", "/webjars/**", "/webjars/swagger-ui/index.html",
-                                "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/index.html", "//csrf-token")
+                                "/v3/api-docs/**", "/swagger-ui/index.html#/**","/swagger-ui.html", "/swagger-ui/index.html", "//csrf-token")
                         .permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))

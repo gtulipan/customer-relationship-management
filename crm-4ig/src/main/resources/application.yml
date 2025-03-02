@@ -26,6 +26,7 @@ spring:
     alias: crm4igkey
     providerUrl: http://localhost:8080
     token-timeout: ${TOKEN_VALIDITY_TIMEOUT:30}
+    client-secret: ${CLIENT_SECRET:9999}
 
 logging:
   level:
