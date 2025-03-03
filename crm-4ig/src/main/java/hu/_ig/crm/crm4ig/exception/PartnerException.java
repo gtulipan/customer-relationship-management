@@ -1,6 +1,6 @@
 package hu._ig.crm.crm4ig.exception;
 
-public class PartnerException  extends RuntimeException {
+public class PartnerException extends RuntimeException {
     public PartnerException(String errorMessage, Throwable error){
         super(errorMessage, error);
     }

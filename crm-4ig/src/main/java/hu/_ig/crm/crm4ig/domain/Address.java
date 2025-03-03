@@ -61,7 +61,7 @@ public class Address {
     private int version;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id", nullable = false)
+    @JoinColumn(name = "partner_id", nullable = false)
     private Partner partner;
 
     @Override

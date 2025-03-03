@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,8 +29,6 @@ public class PartnerDto {
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Please enter a valid email!")
     private String email;
 
-    private OffsetDateTime createdDate;
-    private OffsetDateTime lastModifiedDate;
-    private int version;
-    private Set<AddressDto> addresses;
+    @Builder.Default
+    private Set<AddressDto> addresses = new HashSet<>();
 }

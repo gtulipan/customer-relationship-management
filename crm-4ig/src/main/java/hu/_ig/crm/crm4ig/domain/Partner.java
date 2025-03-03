@@ -2,7 +2,6 @@ package hu._ig.crm.crm4ig.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -50,6 +49,7 @@ public class Partner {
     @Column(name = "version")
     private int version;
 
+    @Builder.Default
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Address> addresses = new HashSet<>();
 

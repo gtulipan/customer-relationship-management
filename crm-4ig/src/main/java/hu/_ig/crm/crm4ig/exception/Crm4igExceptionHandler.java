@@ -16,17 +16,17 @@ import static hu._ig.crm.crm4ig.constants.Constants.EMPTY_STRING;
 public class Crm4igExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<List> validationErrorHandler(ConstraintViolationException e) {
+    public ResponseEntity<List<String>> validationErrorHandler(ConstraintViolationException e) {
         List<String> errors = new ArrayList<>(e.getConstraintViolations().size());
-        e.getConstraintViolations().forEach(constraintViolation -> {
+        e.getConstraintViolations().forEach(constraintViolation ->
             errors.add(String.join(EMPTY_STRING,
-                    constraintViolation.getPropertyPath().toString(), COLON, constraintViolation.getMessage()));
-        });
+                    constraintViolation.getPropertyPath().toString(), COLON, constraintViolation.getMessage()))
+        );
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(PartnerException.class)
-    public ResponseEntity<String> handlePartnerExceptionException(PartnerException e) {
+    public ResponseEntity<String> handlePartnerException(PartnerException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Partner exception: " + e.getMessage());
     }
 
@@ -38,5 +38,10 @@ public class Crm4igExceptionHandler {
     @ExceptionHandler(CsvImportException.class)
     public ResponseEntity<String> handleCsvImportException(CsvImportException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CSV import exception: " + e.getMessage());
+    }
+
+    @ExceptionHandler(AddressException.class)
+    public ResponseEntity<String> handleAddressException(AddressException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Address exception: " + e.getMessage());
     }
 }

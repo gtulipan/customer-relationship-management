@@ -1,8 +1,8 @@
 package hu._ig.crm.crm4ig.utils;
 
-import hu._ig.crm.crm4ig.domain.Partner;
+import hu._ig.crm.crm4ig.domain.Address;
 import hu._ig.crm.crm4ig.exception.PdfGenerationException;
-import hu._ig.crm.crm4ig.model.PartnerExportDto;
+import hu._ig.crm.crm4ig.model.AddressExportDto;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -19,24 +19,25 @@ import static hu._ig.crm.crm4ig.constants.Constants.*;
 
 @Slf4j
 @UtilityClass
-public class PartnerExporter {
+public class AddressExporter {
 
-    public static List<PartnerExportDto> exportPartnersWithAddresses(List<Partner> partners) {
-        return partners.stream().flatMap(partner -> partner.getAddresses().stream().map(address ->
-                PartnerExportDto.builder()
-                        .partnerName(partner.getName())
-                        .partnerEmail(partner.getEmail())
+    public static List<AddressExportDto> exportAddresses(List<Address> addresses) {
+        return addresses.stream().map(address ->
+                AddressExportDto.builder()
+                        .partnerName(address.getPartner().getName())
                         .country(address.getCountry())
                         .city(address.getCity())
                         .street(address.getStreet())
                         .houseNumber(address.getHouseNumber())
+                        .floor(address.getFloor())
+                        .door(address.getDoor())
                         .build()
-        )).toList();
+        ).toList();
     }
 
-    public static byte[] exportPartnersToPdf(List<Partner> partners) {
+    public static byte[] exportAddressesToPdf(List<Address> addresses) {
 
-        List<PartnerExportDto> exportDtos = exportPartnersWithAddresses(partners);
+        List<AddressExportDto> exportDtos = exportAddresses(addresses);
 
         try (PDDocument document = new PDDocument();
              ByteArrayOutputStream out = new ByteArrayOutputStream()) {
@@ -60,33 +61,35 @@ public class PartnerExporter {
         }
     }
 
-    private void loadPdfContent(PDDocument document, PDPage page, PDType0Font font, List<PartnerExportDto> exportDtos) throws IOException {
+    private void loadPdfContent(PDDocument document, PDPage page, PDType0Font font, List<AddressExportDto> exportDtos) throws IOException {
         try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
             contentStream.beginText();
             contentStream.setFont(font, 12);
             contentStream.setLeading(14.5f);
             contentStream.newLineAtOffset(25, 750);
 
-            for (PartnerExportDto partner : exportDtos) {
-                contentStream.showText(String.join(EMPTY_STRING,PARTNER_NAME, partner.getPartnerName()));
+            for (AddressExportDto address : exportDtos) {
+                contentStream.showText(String.join(EMPTY_STRING, PARTNER_NAME, address.getPartnerName()));
                 contentStream.newLine();
-                contentStream.showText(String.join(EMPTY_STRING,EMAIL, partner.getPartnerEmail()));
+                contentStream.showText(String.join(EMPTY_STRING, COUNTRY, address.getCountry()));
                 contentStream.newLine();
-                contentStream.showText(String.join(EMPTY_STRING,COUNTRY, partner.getCountry()));
+                contentStream.showText(String.join(EMPTY_STRING, CITY, address.getCity()));
                 contentStream.newLine();
-                contentStream.showText(String.join(EMPTY_STRING,CITY, partner.getCity()));
+                contentStream.showText(String.join(EMPTY_STRING, STREET, address.getStreet()));
                 contentStream.newLine();
-                contentStream.showText(String.join(EMPTY_STRING,STREET, partner.getStreet()));
+                contentStream.showText(String.join(EMPTY_STRING, HOUSE_NUMBER, address.getHouseNumber()));
                 contentStream.newLine();
-                contentStream.showText(String.join(EMPTY_STRING,HOUSE_NUMBER, partner.getHouseNumber()));
+                contentStream.showText(String.join(EMPTY_STRING, FLOOR, address.getHouseNumber()));
+                contentStream.newLine();
+                contentStream.showText(String.join(EMPTY_STRING, DOOR, address.getHouseNumber()));
                 contentStream.newLine();
                 contentStream.newLine();
             }
+
             if (exportDtos.isEmpty()) {
-                contentStream.showText(THERE_IS_NOT_PARTNER_DATA);
+                contentStream.showText(THERE_IS_NOT_ADDRESS_DATA);
             }
             contentStream.endText();
         }
     }
 }
-

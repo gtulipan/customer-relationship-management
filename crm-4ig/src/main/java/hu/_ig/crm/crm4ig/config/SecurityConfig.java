@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,6 +46,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static hu._ig.crm.crm4ig.constants.Constants.ROLES;
+import static hu._ig.crm.crm4ig.constants.Constants.ROLE_ADMIN_ROLE_USER_HIERARCHY;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Slf4j
@@ -176,6 +179,14 @@ public class SecurityConfig {
         AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
         builder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         return builder.build();
+    }
+
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        String hierarchy = ROLE_ADMIN_ROLE_USER_HIERARCHY;
+        roleHierarchy.setHierarchy(hierarchy);
+        return roleHierarchy;
     }
 
 }

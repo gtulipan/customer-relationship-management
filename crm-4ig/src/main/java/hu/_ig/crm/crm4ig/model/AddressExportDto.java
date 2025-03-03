@@ -5,11 +5,12 @@ import lombok.Data;
 
 @Builder
 @Data
-public class PartnerExportDto {
+public class AddressExportDto {
     private String partnerName;
-    private String partnerEmail;
     private String country;
     private String city;
     private String street;
     private String houseNumber;
+    private String floor;
+    private String door;
 }

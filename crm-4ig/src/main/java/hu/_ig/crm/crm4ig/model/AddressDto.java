@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
@@ -34,8 +33,5 @@ public class AddressDto {
     @Size(min = 1, max = 3)
     private String door;
 
-    private OffsetDateTime createdDate;
-    private OffsetDateTime lastModifiedDate;
-    private int version;
-    private PartnerDto partner;
+    private UUID partnerId;
 }

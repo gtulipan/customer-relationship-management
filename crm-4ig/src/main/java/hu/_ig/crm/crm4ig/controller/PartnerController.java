@@ -39,41 +39,41 @@ public class PartnerController {
 
     @Operation(summary = "GET request for a partner", description = "Gives back a partner by partner identifier.")
     @GetMapping("/partner/{partnerId}")
-    public ResponseEntity<PartnerDto> getPartner(@NotNull @PathVariable("partnerId") UUID customerId){
-        return new ResponseEntity<>(partnerService.getPartnerById(customerId), HttpStatus.OK);
+    public ResponseEntity<PartnerDto> getPartner(@NotNull @PathVariable("partnerId") UUID partnerId) {
+        return new ResponseEntity<>(partnerService.getPartnerById(partnerId), HttpStatus.OK);
     }
 
     @Operation(summary = "GET request for partners list", description = "Retrieves a list of all partners.")
     @GetMapping("/partners")
-    public ResponseEntity<List<PartnerDto>> getAllPartner(){
+    public ResponseEntity<List<PartnerDto>> getAllPartner() {
         return new ResponseEntity<>(partnerService.getAllPartners(), HttpStatus.OK);
     }
 
     @Operation(summary = "POST request to create a new partner", description = "Save a new partner into database.")
     @PostMapping(path = "/partner", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> createPartner(@Valid @RequestBody PartnerDto partnerDto){
+    public ResponseEntity createPartner(@Valid @RequestBody PartnerDto partnerDto) {
         PartnerDto savedDto = partnerService.saveNewPartner(partnerDto);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Location", String.join(EMPTY_STRING, "/v1/partner/", savedDto.getId().toString()));
-        return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+        return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
     }
 
     @Operation(summary = "PUT request to update a partner", description = "Update a partner by partner identifier.")
     @PutMapping("/partner/{partnerId}")
     public ResponseEntity<PartnerDto> updatePartner(@NotNull @PathVariable("partnerId") UUID partnerId,
-                                        @Valid @RequestBody PartnerDto partnerDto){
+                                                    @Valid @RequestBody PartnerDto partnerDto) {
         PartnerDto updatedPartner = partnerService.updatePartner(partnerId, partnerDto);
         return ResponseEntity.ok(updatedPartner);
     }
 
-    @Operation(summary = "Delete partner", description = "Deletes a partner based on ID")
+    @Operation(summary = "Delete partner", description = "Delete a partner based on ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully deleted", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PartnerDto.class))),
             @ApiResponse(responseCode = "404", description = "Partner not found")
     })
     @DeleteMapping("/partner/{partnerId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePartner(@NotNull @PathVariable("partnerId") UUID partnerId){
+    public void deletePartner(@NotNull @PathVariable("partnerId") UUID partnerId) {
         partnerService.deletePartnerById(partnerId);
     }
 
@@ -95,12 +95,12 @@ public class PartnerController {
 
     @Operation(summary = "GET request to get all partners as PDF.", description = "Generate a PDF with all partners.")
     @GetMapping("/partners/export-pdf")
-    public ResponseEntity<byte[]> printQuote() {
+    public ResponseEntity<byte[]> printPartners() {
         byte[] pdfBytes = partnerService.exportPartnersToPdf();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDisposition(ContentDisposition.attachment().filename(getFileName(Constants.PARTNERS_EXPORT)).build());
+        headers.setContentDisposition(ContentDisposition.attachment().filename(getFileName(PARTNERS_EXPORT)).build());
 
         return ResponseEntity.ok().headers(headers).body(pdfBytes);
     }

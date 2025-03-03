@@ -1,5 +1,6 @@
 package hu._ig.crm.crm4ig.service.impl;
 
+import hu._ig.crm.crm4ig.domain.Address;
 import hu._ig.crm.crm4ig.domain.Partner;
 import hu._ig.crm.crm4ig.exception.PartnerException;
 import hu._ig.crm.crm4ig.mapper.AddressMapper;
@@ -14,6 +15,7 @@ import hu._ig.crm.crm4ig.utils.PartnerImporter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -47,21 +49,32 @@ public class PartnerServiceImpl implements PartnerService {
         return partners.stream().map(partnerMapper::toPartnerDto).toList();
     }
 
+    @Transactional
     @Override
     public PartnerDto saveNewPartner(PartnerDto partnerDto) {
         Partner newPartner = partnerMapper.toPartner(partnerDto);
+        newPartner.getAddresses().forEach(address -> address.setPartner(newPartner));
         Partner savedPartner = partnerRepository.save(newPartner);
+        log.debug("Partner entity saved, ID: {}", savedPartner.getId());
         return partnerMapper.toPartnerDto(savedPartner);
     }
 
+    @Transactional
     @Override
     public PartnerDto updatePartner(UUID partnerId, PartnerDto partnerDto) {
         return partnerRepository.findById(partnerId).map(partner -> {
             partner.setName(partnerDto.getName());
             partner.setEmail(partnerDto.getEmail());
+            partner.getAddresses().clear();
+            partnerRepository.save(partner);
             if (partnerDto.getAddresses() != null) {
-                partner.setAddresses(partnerDto.getAddresses().stream().map(addressMapper::toAddress).collect(Collectors.toSet()));
+                partnerDto.getAddresses().forEach(addressDto -> {
+                    Address address = addressMapper.toAddress(addressDto);
+                    address.setPartner(partner);
+                    partner.getAddresses().add(address);
+                });
             }
+
             Partner updatedPartner = partnerRepository.save(partner);
             log.debug("Partner updated with ID: {}", partnerId);
             return partnerMapper.toPartnerDto(updatedPartner);

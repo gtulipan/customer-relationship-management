@@ -107,7 +107,7 @@ class PartnerServiceImplTest {
         assertNotNull(result);
         assertEquals(partnerId, result.getId());
         verify(partnerRepository, times(1)).findById(partnerId);
-        verify(partnerRepository, times(1)).save(partner);
+        verify(partnerRepository, times(2)).save(partner);
     }
 
     @Test
@@ -132,12 +132,12 @@ class PartnerServiceImplTest {
     void testFindPartnersByAddress() {
         var country = "Hungary";
         var city = "Budapest";
-        var street = "Main Street";
+        var street = "Fő utca";
         var houseNumber = "1";
 
         var partners = new ArrayList<Partner>();
-        var partner = new Partner();
-        partners.add(partner);
+        var partnerLocale = new Partner();
+        partners.add(partnerLocale);
 
         when(partnerRepository.findAll(any(Specification.class))).thenReturn(partners);
         when(partnerMapper.toPartnerDto(partner)).thenReturn(new PartnerDto());

@@ -2,38 +2,38 @@ package hu._ig.crm.crm4ig.util;
 
 import hu._ig.crm.crm4ig.domain.Address;
 import hu._ig.crm.crm4ig.domain.Partner;
-import hu._ig.crm.crm4ig.model.PartnerExportDto;
-import hu._ig.crm.crm4ig.utils.PartnerExporter;
+import hu._ig.crm.crm4ig.model.AddressExportDto;
+import hu._ig.crm.crm4ig.utils.AddressExporter;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PartnerExporterTest {
+class AddressExporterTest {
 
     @Test
-    void testExportPartnersWithAddresses() {
-        List<Partner> partners = getTestPartners();
-        List<PartnerExportDto> exportDtos = PartnerExporter.exportPartnersWithAddresses(partners);
+    void testExportAddresses() {
+        List<Address> addresses = getTestAddresses();
+        List<AddressExportDto> exportDtos = AddressExporter.exportAddresses(addresses);
 
         assertEquals(1, exportDtos.size());
-        PartnerExportDto dto = exportDtos.get(0);
+        AddressExportDto dto = exportDtos.get(0);
         assertEquals("Teszt Elek", dto.getPartnerName());
-        assertEquals("teszt.elek@example.com", dto.getPartnerEmail());
         assertEquals("Hungary", dto.getCountry());
         assertEquals("Budapest", dto.getCity());
         assertEquals("Fő utca", dto.getStreet());
         assertEquals("1", dto.getHouseNumber());
+        assertEquals("1", dto.getFloor());
+        assertEquals("1", dto.getDoor());
     }
 
     @Test
-    void testExportPartnersToPdf() throws Exception {
-        List<Partner> partners = getTestPartners();
-        byte[] pdfBytes = PartnerExporter.exportPartnersToPdf(partners);
+    void testExportAddressesToPdf() throws Exception {
+        List<Address> addresses = getTestAddresses();
+        byte[] pdfBytes = AddressExporter.exportAddressesToPdf(addresses);
 
         assertNotNull(pdfBytes);
         assertTrue(pdfBytes.length > 0);
@@ -42,7 +42,7 @@ class PartnerExporterTest {
         }
     }
 
-    private List<Partner> getTestPartners() {
+    private List<Address> getTestAddresses() {
         var partner = new Partner();
         partner.setName("Teszt Elek");
         partner.setEmail("teszt.elek@example.com");
@@ -52,8 +52,9 @@ class PartnerExporterTest {
         address.setCity("Budapest");
         address.setStreet("Fő utca");
         address.setHouseNumber("1");
-        partner.setAddresses(Set.of(address));
-
-        return List.of(partner);
+        address.setFloor("1");
+        address.setDoor("1");
+        address.setPartner(partner);
+        return List.of(address);
     }
 }
