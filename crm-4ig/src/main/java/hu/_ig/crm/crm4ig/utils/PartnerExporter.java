@@ -83,6 +83,9 @@ public class PartnerExporter {
                 contentStream.newLine();
                 contentStream.newLine();
             }
+            if(exportDtos.isEmpty()){
+                contentStream.showText(THERE_IS_NOT_PARTNER_DATA);
+            }
             contentStream.endText();
         }
     }

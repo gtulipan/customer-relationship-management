@@ -34,4 +34,5 @@ public class Constants {
     public static final String FILE = "file";
     public static final String FILE_UPLOADED_AND_DATA_IMPORTED_SUCCESSFULLY = "File uploaded and data imported successfully";
     public static final String ERROR_WHILE_IMPORTING_DATA = "Error while importing data: ";
+    public static final String THERE_IS_NOT_PARTNER_DATA = "Jelenleg nem tartalmaz Partner adatot az adatbázis.";
 }

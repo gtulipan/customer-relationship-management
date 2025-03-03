@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static hu._ig.crm.crm4ig.constants.Constants.*;
+import static hu._ig.crm.crm4ig.constants.Constants.PARTNER_NOT_EXIST_WITH_ID;
 
 @Slf4j
 @RequiredArgsConstructor

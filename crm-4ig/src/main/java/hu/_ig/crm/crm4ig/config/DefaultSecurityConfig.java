@@ -28,9 +28,18 @@ public class DefaultSecurityConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/auth/csrf-token", "/swagger-ui/**", "/app/**",
-                                "/auth/v1/login", "/auth/v1/register", "/webjars/**", "/webjars/swagger-ui/index.html",
-                                "/v3/api-docs/**", "/swagger-ui/index.html#/**","/swagger-ui.html", "/swagger-ui/index.html", "//csrf-token")
+                        .requestMatchers(
+                                "/auth/csrf-token",
+                                "/swagger-ui/**",
+                                "/app/**",
+                                "/auth/v1/login",
+                                "/auth/v1/register",
+                                "/webjars/**",
+                                "/webjars/swagger-ui/index.html",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/index.html#/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/index.html")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
@@ -39,7 +48,17 @@ public class DefaultSecurityConfig {
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(csrfConfig.csrfTokenRepository())
                         .csrfTokenRequestHandler(csrfConfig.csrfTokenRequestHandler())
+                        .ignoringRequestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/webjars/**",
+                                "/webjars/swagger-ui/index.html",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/index.html"
+                        )
                 )
+//                .csrf(csrf -> csrf.disable())
                 .httpBasic(withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))

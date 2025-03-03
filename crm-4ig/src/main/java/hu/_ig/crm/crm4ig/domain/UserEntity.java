@@ -49,6 +49,6 @@ public class UserEntity {
     @Column(name = "version")
     private int version;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<RoleEntity> roles;
 }
