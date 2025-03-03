@@ -9,7 +9,6 @@ import org.springframework.core.env.Environment;
 
 @Slf4j
 @SpringBootApplication
-@EntityScan(basePackages = "hu._ig.crm.crm4ig.domain")
 public class Crm4igApplication {
 
 	public static void main(String[] args) {
