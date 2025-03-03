@@ -93,8 +93,8 @@ public class PartnerController {
         return ResponseEntity.ok(partnerService.exportPartnersWithAddresses());
     }
 
-    @Operation(summary = "POST request to get the partners as PDF.", description = "Generate a PDF with the partners.")
-    @PostMapping("/partners/export-pdf")
+    @Operation(summary = "GET request to get all partners as PDF.", description = "Generate a PDF with all partners.")
+    @GetMapping("/partners/export-pdf")
     public ResponseEntity<byte[]> printQuote() {
         byte[] pdfBytes = partnerService.exportPartnersToPdf();
 

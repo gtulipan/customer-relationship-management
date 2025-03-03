@@ -58,7 +58,6 @@ public class DefaultSecurityConfig {
                                 "/swagger-ui/index.html"
                         )
                 )
-//                .csrf(csrf -> csrf.disable())
                 .httpBasic(withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
