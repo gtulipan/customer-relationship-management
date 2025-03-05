@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -105,13 +106,25 @@ public class PartnerController {
         return ResponseEntity.ok().headers(headers).body(pdfBytes);
     }
 
-    @Operation(summary = "POST request to import partners from CSV file.", description = "Import partners from CSV file. The class type of file in request is MultipartFile.")
-    @PostMapping("/import")
-    public ResponseEntity<String> importPartnersFromCsv(@NotNull @RequestParam(FILE) MultipartFile file) {
-        if (file.isEmpty()) {
+    @Operation(summary = "POST request to import partners from CSV file.",
+            description = "Import partners from CSV file. The class type of file in request is MultipartFile.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(mediaType = "multipart/form-data",
+                            schema = @Schema(type = "string", format = "binary"))
+            )
+//            ,
+//            security = @SecurityRequirement(name = "BearerAuth")
+    )
+    @PostMapping(value = "/import", consumes= MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> importPartnersFromCsv(@RequestPart("file") MultipartFile file) {
+        log.debug("************ importPartnersFromCsv() **************");
+        log.debug("Request received with parameter: " + file);
+        if (file == null || file.isEmpty()) {
+            log.debug("The file is null or empty!");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FILE_IS_EMPTY);
         }
-
+        log.debug("File name: " + file.getOriginalFilename());
+        log.debug("File size: " + file.getSize());
         try {
             partnerService.importPartnersFromCsv(file.getInputStream());
             return ResponseEntity.ok(Constants.FILE_UPLOADED_AND_DATA_IMPORTED_SUCCESSFULLY);

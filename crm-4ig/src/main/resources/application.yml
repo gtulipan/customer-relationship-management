@@ -27,6 +27,11 @@ spring:
     providerUrl: http://localhost:8080
     token-timeout: ${TOKEN_VALIDITY_TIMEOUT:30}
     client-secret: ${CLIENT_SECRET:9999}
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 logging:
   level:
