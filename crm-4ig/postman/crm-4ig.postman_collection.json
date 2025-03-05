@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "253e014a-ae16-45c6-b78b-f67184240bbb",
+		"name": "crm-4ig",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32075904"
+	},
+	"item": [
+		{
+			"name": "import",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ4NXQjUzI1NiI6IkZmWXBkMUFSVzBDV0hGNnVKaU5rTFpTSXpyd2xic05XOGdQWlAtNW91aU0iLCJraWQiOiJjcm00aWdrZXkiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyQGV4YW1wbGUuY29tIiwiZXhwIjoxNzQxMjA2NjEyLCJpYXQiOjE3NDEyMDMwMTIsInJvbGVzIjpbInVzZXIiXX0.tvaWAZGcPHYrel7SBgOfazOXLxx85wCCasHhK76lqENF-ca-k0WqNiKzh4RSTYO0Of7-OhWIJG4MXiXWhpvxHv5aAxbzltH8eUdAYGPwhKz-jr-XcoyZSpxf5v8gbTWwfB4J8NE92KEkzXFw5p3r4Hx_pdXYpNL9xU-7SDmGYzoA2VgGwMZJ5Ws9e3A_LNH8PpKPFr6pEB8CsosL0NcneKQ5_dKRD2ZHwTdn4COL5as4eBX9mWuytgDXhXx6P492hFRlZvdZpSOrw_8nF0-H_VYkV-nx2hZEIS5ura2VbtZm5_7RRXbBBzRLxEXykBvV7Z_LWTdCjrE0tTgRtQNBU0Sf19EBvc1yvCaQnwyx5MKsp5QhIWvbyjDtU9oP1D701kTjOBosiQRKXLQ-3T6jNI4lWRkHtHsF8nB39dPvfP8Rz18KMqxt9xqOdtWmyz0Aec1e2ccPjqrgNgDefkTAl9DIQUew9q053IED-DPsMc1v8jGjuPv13oCVeKtSseZCPHoVmkpcX_lfRQTC9MbjskJHvtG8BSF19SrdTGUjch86Sg6ctRzRk2xzct2ADQiYEpyksdUIHotwUGI9-FauaxiK18hYn7UDjcrtQp5keKDYNeOEu899O6x5NJOU2JnzQaKe1Z49Qd27uZp-CETdZseOehis1INfgXg--hmE7uI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/DEV_TOOLS/intelliJ_workspace/customer-relationship-management/importTestData.csv"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/import",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"import"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"user@example.com\",\r\n  \"password\": \"user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/v1/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

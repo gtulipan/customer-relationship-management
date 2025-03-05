@@ -1,0 +1,5 @@
+name,email,country,city,street,house_number
+Teszt Elek,teszt.elek@example.com,Hungary,Budapest,Fő utca,1
+Teszt Elek,teszt.elek@example.com,Hungary,Szeged,Petőfi utca,2
+Est Hajnalka,est.hajnalka@example.com,Hungary,Pécs,Kossuth utca,3
+Est Hajnalka,est.hajnalka@example.com,Hungary,Debrecen,Ady utca,4
